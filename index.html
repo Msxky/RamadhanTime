@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImsakTime - Jadwal Imsak & Sholat</title>
+    <meta name="description" content="Jadwal waktu imsak dan sholat dengan deteksi lokasi otomatis">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>">
+    
+    <style>
+        :root {
+            --bg-light: rgba(255, 255, 255, 0.8);
+            --text-light: #333;
+            --accent-light: #4A90E2;
+            --bg-dark: rgba(18, 18, 18, 0.85);
+            --text-dark: #f1f1f1;
+            --accent-dark: #64B5F6;
+            --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-image: url('https://images.unsplash.com/photo-1604868189265-a418e49bcd2c?q=80&w=1170&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-light);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: var(--bg-light);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: var(--glass-shadow);
+            border: var(--glass-border);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .glass-card {
+            background: var(--bg-dark);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            font-size: 1.8rem;
+        }
+
+        .toggle-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .toggle {
+            width: 50px;
+            height: 26px;
+            border-radius: 13px;
+            background-color: #ccc;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-circle {
+            width: 22px;
+            height: 22px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        .toggle.active {
+            background-color: var(--accent-light);
+        }
+
+        body.dark-mode .toggle.active {
+            background-color: var(--accent-dark);
+        }
+
+        .toggle.active .toggle-circle {
+            transform: translateX(24px);
+        }
+
+        .toggle-label {
+            font-size: 0.8rem;
+        }
+
+        .location-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .location-icon {
+            font-size: 1.2rem;
+        }
+
+        .location-text {
+            flex-grow: 1;
+        }
+
+        .city-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .date-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .search-input {
+            background: rgba(50, 50, 50, 0.8);
+            color: white;
+        }
+
+        .search-btn {
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent-light);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .search-btn {
+            background: var(--accent-dark);
+        }
+
+        .countdown-card {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .countdown-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .countdown-time {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .prayer-times {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .prayer-card {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .prayer-card {
+            background: rgba(40, 40, 40, 0.6);
+        }
+
+        .prayer-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .prayer-time {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .notifications-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-text {
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .primary-btn {
+            background: var(--accent-light);
+            color: white;
+        }
+
+        body.dark-mode .primary-btn {
+            background: var(--accent-dark);
+        }
+
+        .widget-card {
+            padding: 15px;
+        }
+
+        .widget-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .widget-code {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+
+        body.dark-mode .widget-code {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid currentColor;
+            color: inherit;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .notification-settings {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .notification-settings.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .form-group select, 
+        body.dark-mode .form-group input {
+            background: rgba(50, 50, 50, 0.8);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .cities-dropdown {
+            position: absolute;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            display: none;
+        }
+
+        body.dark-mode .cities-dropdown {
+            background: #333;
+        }
+
+        .cities-dropdown.active {
+            display: block;
+        }
+
+        .city-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .city-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode .city-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        @media (max-width: 600px) {
+            .prayer-times {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .countdown-time {
+                font-size: 2rem;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .toggle-container {
+                align-self: flex-end;
+            }
+        }
+
+        /* Notifications */
+        .alert {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-left: 4px solid var(--accent-light);
+        }
+
+        body.dark-mode .alert {
+            background: rgba(40, 40, 40, 0.9);
+            border-left-color: var(--accent-dark);
+        }
+
+        .alert-icon {
+            font-size: 1.5rem;
+        }
+
+        .alert-content {
+            flex-grow: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .alert-message {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 15px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--accent-light);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        body.dark-mode .spinner {
+            border-left-color: var(--accent-dark);
+            border-top-color: rgba(255, 255, 255, 0.1);
+            border-right-color: rgba(255, 255, 255, 0.1);
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #install-container {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-card">
+            <div class="header">
+                <div class="logo">
+                    <span>🌙</span> ImsakTime
+                </div>
+                <div class="toggle-container">
+                    <div>
+                        <div id="dark-toggle" class="toggle">
+                            <div class="toggle-circle"></div>
+                        </div>
+                        <div class="toggle-label">Dark Mode</div>
+                    </div>
+                    <div>
+                        <div id="notification-toggle" class="toggle">
+                            <div class="toggle-circle"></div>
+                        </div>
+                        <div class="toggle-label">Notifikasi</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="location-bar">
+                <div class="location-icon">📍</div>
+                <div class="location-text">
+                    <div class="city-name" id="current-city">Memuat lokasi...</div>
+                    <div class="date-text" id="current-date">-</div>
+                </div>
+                <button id="auto-locate" class="btn copy-btn">Deteksi</button>
+            </div>
+
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <input type="text" id="city-search" class="search-input" placeholder="Cari kota...">
+                    <div id="cities-dropdown" class="cities-dropdown"></div>
+                </div>
+                <button id="search-btn" class="search-btn">Cari</button>
+            </div>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <div>Memuat jadwal sholat...</div>
+            </div>
+
+            <div id="alert-container" class="hidden"></div>
+
+            <div id="content-container" class="hidden">
+                <div class="glass-card countdown-card">
+                    <div class="countdown-title">Waktu Menuju Imsak</div>
+                    <div class="countdown-time" id="imsak-countdown">00:00:00</div>
+                    <div class="countdown-label" id="imsak-time">Imsak hari ini: 04:30</div>
+                </div>
+
+                <div class="glass-card">
+                    <h2 style="margin-bottom: 15px;">Jadwal Waktu Sholat</h2>
+                    <div class="prayer-times" id="prayer-times">
+                        <!-- Prayer times will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="glass-card notifications-card">
+                    <div class="notification-text">Pengaturan Notifikasi</div>
+                    <button id="settings-toggle" class="btn primary-btn">Atur Waktu</button>
+
+                    <div id="notification-settings" class="notification-settings">
+                        <div class="form-group">
+                            <label for="prayer-select">Pilih Waktu</label>
+                            <select id="prayer-select">
+                                <option value="imsak">Imsak</option>
+                                <option value="fajr">Subuh</option>
+                                <option value="dhuhr">Dzuhur</option>
+                                <option value="asr">Ashar</option>
+                                <option value="maghrib">Maghrib</option>
+                                <option value="isha">Isya</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="minutes-before">Menit Sebelumnya (0-60)</label>
+                            <input type="number" id="minutes-before" min="0" max="60" value="15">
+                        </div>
+                        <button id="save-notification" class="btn primary-btn">Simpan Pengaturan</button>
+                    </div>
+                </div>
+
+                <div class="glass-card widget-card">
+                    <div class="widget-title">Widget untuk Website</div>
+                    <div class="widget-code" id="widget-code">
+                        &lt;iframe src="https://imsaktime.vercel.app/widget?city=jakarta" width="300" height="150" frameborder="0"&gt;&lt;/iframe&gt;
+                    </div>
+                    <button id="copy-widget" class="btn copy-btn">Salin Kode</button>
+                </div>
+
+                <div id="install-container">
+                    <button id="install-btn" class="btn primary-btn">Instal Aplikasi</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2025 ImsakTime - Aplikasi Jadwal Imsak & Sholat
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/id.min.js"></script>
+    <script>
+        // DOM Elements
+        const darkToggle = document.getElementById('dark-toggle');
+        const notificationToggle = document.getElementById('notification-toggle');
+        const citySearch = document.getElementById('city-search');
+        const searchBtn = document.getElementById('search-btn');
+        const autoLocateBtn = document.getElementById('auto-locate');
+        const currentCity = document.getElementById('current-city');
+        const currentDate = document.getElementById('current-date');
+        const imsakCountdown = document.getElementById('imsak-countdown');
+        const imsakTime = document.getElementById('imsak-time');
+        const prayerTimes = document.getElementById('prayer-times');
+        const settingsToggle = document.getElementById('settings-toggle');
+        const notificationSettings = document.getElementById('notification-settings');
+        const copyWidgetBtn = document.getElementById('copy-widget');
+        const widgetCode = document.getElementById('widget-code');
+        const citiesDropdown = document.getElementById('cities-dropdown');
+        const loadingContainer = document.getElementById('loading');
+        const contentContainer = document.getElementById('content-container');
+        const alertContainer = document.getElementById('alert-container');
+        const saveNotificationBtn = document.getElementById('save-notification');
+        const prayerSelect = document.getElementById('prayer-select');
+        const minutesBefore = document.getElementById('minutes-before');
+        const installBtn = document.getElementById('install-btn');
+        const installContainer = document.getElementById('install-container');
+
+        // Global variables
+        let deferredPrompt;
+        let currentPrayerTimes = null;
+        let selectedCity = null;
+        let notifications = {};
+        let countdownInterval = null;
+
+        // Cities database (simplified for demo)
+        const cities = [
+            { name: "Jakarta", lat: -6.2088, lng: 106.8456 },
+            { name: "Surabaya", lat: -7.2575, lng: 112.7521 },
+            { name: "Bandung", lat: -6.9175, lng: 107.6191 },
+            { name: "Medan", lat: 3.5952, lng: 98.6722 },
+            { name: "Semarang", lat: -6.9932, lng: 110.4203 },
+            { name: "Makassar", lat: -5.1477, lng: 119.4327 },
+            { name: "Palembang", lat: -2.9761, lng: 104.7754 },
+            { name: "Tangerang", lat: -6.1701, lng: 106.6403 },
+            { name: "Depok", lat: -6.4025, lng: 106.7942 },
+            { name: "Bekasi", lat: -6.2349, lng: 106.9896 },
+            { name: "Yogyakarta", lat: -7.7971, lng: 110.3688 },
+            { name: "Bogor", lat: -6.5971, lng: 106.8060 },
+            { name: "Malang", lat: -7.9797, lng: 112.6304 },
+            { name: "Padang", lat: -0.9471, lng: 100.4172 },
+            { name: "Denpasar", lat: -8.6705, lng: 115.2126 }
+        ];
+
+        // Initialize the app
+        function init() {
+            setupEventListeners();
+            loadSettings();
+            updateDate();
+            detectLocation();
+            checkPWASupport();
+            
+            // Set interval to update date every minute
+            setInterval(updateDate, 60000);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Dark mode toggle
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                darkToggle.classList.toggle('active');
+                saveSettings();
+            });
+
+            // Notification toggle
+            notificationToggle.addEventListener('click', () => {
+                toggleNotifications();
+            });
+
+            // Search button
+            searchBtn.addEventListener('click', () => {
+                searchCity();
+            });
+
+            // City search input
+            citySearch.addEventListener('input', () => {
+                showCitySuggestions();
+            });
+
+            citySearch.addEventListener('focus', () => {
+                showCitySuggestions();
+            });
+
+            // Settings toggle
+            settingsToggle.addEventListener('click', () => {
+                notificationSettings.classList.toggle('active');
+            });
+
+            // Auto locate button
+            autoLocateBtn.addEventListener('click', () => {
+                detectLocation();
+            });
+
+            // Copy widget button
+            copyWidgetBtn.addEventListener('click', () => {
+                copyWidgetCode();
+            });
+
+            // Save notification settings
+            saveNotificationBtn.addEventListener('click', () => {
+                saveNotificationSettings();
+            });
+
+            // Install button
+            installBtn.addEventListener('click', () => {
+                installPWA();
+            });
+
+            // Listen for Enter key in search box
+            citySearch.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchCity();
+                }
+            });
+
+            // Close city dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-wrapper')) {
+                    citiesDropdown.classList.remove('active');
+                }
+            });
+        }
+
+        // Update current date
+        function updateDate() {
+            moment.locale('id');
+            const now = moment();
+            currentDate.textContent = now.format('dddd, D MMMM YYYY');
+        }
+
+        // Detect user location
+        function detectLocation() {
+            showLoading();
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const { latitude, longitude } = position.coords;
+                        const nearestCity = findNearestCity(latitude, longitude);
+                        selectedCity = nearestCity;
+                        currentCity.textContent = nearestCity.name;
+                        fetchPrayerTimes(nearestCity.lat, nearestCity.lng);
+                        updateWidgetCode(nearestCity.name.toLowerCase());
+                    },
+                    error => {
+                        console.error("Error getting location:", error);
+                        showAlert('error', 'Gagal mendapatkan lokasi', 'Silakan cari kota secara manual atau izinkan akses lokasi.');
+                        hideLoading();
+                        // Default to Jakarta if location access is denied
+                        selectedCity = cities[0]; // Jakarta
+                        currentCity.textContent = selectedCity.name;
+                        fetchPrayerTimes(selectedCity.lat, selectedCity.lng);
+                        updateWidgetCode(selectedCity.name.toLowerCase());
+                    }
+                );
+            } else {
+                showAlert('error', 'Geolokasi tidak didukung', 'Browser Anda tidak mendukung geolokasi. Silakan cari kota secara manual.');
+                hideLoading();
+                // Default to Jakarta if geolocation is not supported
+                selectedCity = cities[0]; // Jakarta
+                currentCity.textContent = selectedCity.name;
+                fetchPrayerTimes(selectedCity.lat, selectedCity.lng);
+                updateWidgetCode(selectedCity.name.toLowerCase());
+            }
+        }
+
+        // Find nearest city from coordinates
+        function findNearestCity(lat, lng) {
+            let nearestCity = null;
+            let minDistance = Infinity;
+
+            cities.forEach(city => {
+                const distance = calculateDistance(lat, lng, city.lat, city.lng);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    nearestCity = city;
+                }
+            });
+
+            return nearestCity;
+        }
+
+        // Calculate distance between two coordinates
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius of the earth in km
+            const dLat = deg2rad(lat2 - lat1);
+            const dLon = deg2rad(lon2 - lon1);
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2)
+            ; 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            const d = R * c; // Distance in km
+            return d;
+        }
+
+        function deg2rad(deg) {
+            return deg * (Math.PI/180);
+        }
+
+        // Search for a city
+        function searchCity() {
+            const searchTerm = citySearch.value.trim().toLowerCase();
+            if (!searchTerm) return;
+
+            const matchedCities = cities.filter(city => 
+                city.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (matchedCities.length > 0) {
+                selectedCity = matchedCities[0];
+                currentCity.textContent = selectedCity.name;
+                fetchPrayerTimes(selectedCity.lat, selectedCity.lng);
+                updateWidgetCode(selectedCity.name.toLowerCase());
+                citiesDropdown.classList.remove('active');
+            } else {
+                showAlert('error', 'Kota tidak ditemukan', 'Silakan coba dengan nama kota lain.');
+            }
+        }
+
+        // Show city suggestions
+        function showCitySuggestions() {
+            const searchTerm = citySearch.value.trim().toLowerCase();
+            if (!searchTerm) {
+                citiesDropdown.classList.remove('active');
+                return;
+            }
+
+            const matchedCities = cities.filter(city => 
+                city.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (matchedCities.length > 0) {
+                citiesDropdown.innerHTML = '';
+                matchedCities.forEach(city => {
+                    const cityElement = document.createElement('div');
+                    cityElement.classList.add('city-item');
+                    cityElement.textContent = city.name;
+                    cityElement.addEventListener('click', () => {
+                        selectedCity = city;
+                        currentCity.textContent = city.name;
+                        citySearch.value = city.name;
+                        fetchPrayerTimes(city.lat, city.lng);
+                        updateWidgetCode(city.name.toLowerCase());
+                        citiesDropdown.classList.remove('active');
+                    });
+                    citiesDropdown.appendChild(cityElement);
+                });
+                citiesDropdown.classList.add('active');
+            } else {
+                citiesDropdown.classList.remove('active');
+            }
+        }
+
+        // Fetch prayer times from API
+        function fetchPrayerTimes(lat, lng) {
+            showLoading();
+
+            // Using Al-Adhan API for prayer times
+            const today = new Date();
+            const month = today.getMonth() + 1;
+            const year = today.getFullYear();
+            
+            fetch(`https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${lat}&longitude=${lng}&method=3`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200 && data.data) {
+                        const day = today.getDate() - 1; // API uses 0-based index for days
+                        currentPrayerTimes = data.data[day].timings;
+                        
+                        // Add Imsak if not included (estimate 10 minutes before Fajr)
+                        if (!currentPrayerTimes.Imsak) {
+                            const fajrTime = moment(currentPrayerTimes.Fajr, "HH:mm");
+                            currentPrayerTimes.Imsak = fajrTime.subtract(10, 'minutes').format("HH:mm");
+                        }
+                        
+                        updatePrayerTimesUI();
+                        startCountdown();
+                        hideLoading();
+                        showContent();
+                    } else {
+                        throw new Error("Error fetching prayer times");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching prayer times:", error);
+                    showAlert('error', 'Gagal memuat jadwal sholat', 'Silakan coba lagi nanti atau pilih kota lain.');
+                    hideLoading();
+                });
+        }
+
+        // Update prayer times UI
+        function updatePrayerTimesUI() {
+            if (!currentPrayerTimes) return;
