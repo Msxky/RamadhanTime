@@ -3,233 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Ramadhan 2024</title>
+    <title>Ramadhan Time 2025</title>
     <style>
-        :root {
-            --primary: #0A84FF;
-            --background: #e0e5ec;
-            --surface: #e0e5ec;
-            --text: #2d4263;
-            --shadow-light: 20px 20px 60px #bebebe,
-                           -20px -20px 60px #ffffff;
-            --shadow-inset: inset 5px 5px 10px #bebebe,
-                            inset -5px -5px 10px #ffffff;
-        }
+        /* Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --background: #1a1a1a;
-                --surface: #2d2d2d;
-                --text: #ffffff;
-                --shadow-light: 20px 20px 60px #0d0d0d,
-                              -20px -20px 60px #3d3d3d;
-                --shadow-inset: inset 5px 5px 10px #0d0d0d,
-                              inset -5px -5px 10px #3d3d3d;
-            }
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --neumorphic-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.2), inset -5px -5px 10px rgba(255, 255, 255, 0.2);
+            --primary-color: #4CAF50;
+            --text-color: #fff;
+            --dark-bg: #121212;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: var(--background);
-            color: var(--text);
+            background: var(--dark-bg);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
-            padding: 2rem;
-            transition: all 0.3s ease;
+            padding: 20px;
         }
 
         .container {
+            width: 90%;
             max-width: 800px;
-            margin: 0 auto;
-            background: var(--surface);
-            border-radius: 2rem;
-            padding: 2rem;
-            box-shadow: var(--shadow-light);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass-bg);
             backdrop-filter: blur(10px);
-            z-index: -1;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--neumorphic-shadow);
         }
 
-        .header {
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .controls {
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 15px;
         }
 
         button {
-            background: var(--surface);
-            color: var(--text);
+            background: var(--primary-color);
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 1rem;
+            padding: 10px 15px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-light);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            color: white;
+            font-weight: 600;
+            transition: 0.3s;
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-light),
-                        var(--shadow-inset);
-        }
-
-        select {
-            background: var(--surface);
-            color: var(--text);
-            border: none;
-            padding: 1rem;
-            border-radius: 1rem;
-            width: 100%;
-            margin-top: 1rem;
-            box-shadow: var(--shadow-inset);
-            appearance: none;
-        }
-
-        .countdown {
-            text-align: center;
-            margin: 2rem 0;
-            padding: 2rem;
-            border-radius: 1.5rem;
-            background: var(--surface);
-            box-shadow: var(--shadow-inset);
-        }
-
-        .progress {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 1rem auto;
-            position: relative;
-            display: grid;
-            place-items: center;
-            box-shadow: var(--shadow-light);
+            opacity: 0.8;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 2rem;
-            background: var(--surface);
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: var(--shadow-light);
+            margin-top: 10px;
         }
 
         th, td {
-            padding: 1.2rem;
+            padding: 8px;
             text-align: center;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         th {
-            background: rgba(var(--primary), 0.1);
-            color: var(--primary);
+            background: var(--primary-color);
         }
 
-        .notification-settings {
-            margin-top: 2rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 1rem;
-            background: var(--surface);
-            box-shadow: var(--shadow-inset);
+        .time-display {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 10px;
         }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-            
-            .container {
-                padding: 1.5rem;
-                border-radius: 1.5rem;
-            }
-            
-            table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-            
-            .progress {
-                width: 120px;
-                height: 120px;
-            }
-            
-            button {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .header {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 480px) {
-            th, td {
-                padding: 0.8rem;
-                font-size: 0.9rem;
-            }
-            
-            .countdown {
-                padding: 1rem;
-            }
-            
-            .notification-settings {
-                grid-template-columns: 1fr;
-            }
-        }
-                       </style>
+    </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="header">
-            <h1>Jadwal Ramadhan</h1>
-            <button onclick="getLocation()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
-                </svg>
-                Lokasi Saya
-            </button>
-        </div>
-        
-        <select id="citySelect" style="display: none;"></select>
-        
-        <div class="countdown">
-            <h2 id="nextPrayerName">-</h2>
-            <div class="progress">
-                <div id="countdown">00:00:00</div>
-            </div>
-            <p>Waktu tersisa menuju sholat berikutnya</p>
+        <h1>Ramadhan Time 2025</h1>
+
+        <div class="controls">
+            <button id="toggleDarkMode">Dark Mode</button>
+            <button id="detectLocation">Deteksi Lokasi</button>
         </div>
 
-        <div class="notification-settings" id="notificationSettings"></div>
-        
+        <p class="time-display">Imsak: <span id="imsak-time">--:--</span> | Subuh: <span id="subuh-time">--:--</span></p>
+
         <table>
             <thead>
                 <tr>
@@ -242,223 +118,92 @@
                     <th>Isya</th>
                 </tr>
             </thead>
-            <tbody id="scheduleTable"></tbody>
+            <tbody id="schedule-table">
+                <tr><td colspan="7">Memuat data...</td></tr>
+            </tbody>
         </table>
     </div>
 
+    <audio id="alarm-imsak" src="https://www.soundjay.com/misc/sounds/buzzer-2.mp3"></audio>
+    <audio id="alarm-maghrib" src="https://www.islamicfinder.org/sounds/adhan/adhan.mp3"></audio>
+
     <script>
-        let currentCityId = null;
-        let prayerTimes = [];
-        let intervalId = null;
-        let notificationSettings = {};
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggleDarkModeBtn = document.getElementById("toggleDarkMode");
+            const detectLocationBtn = document.getElementById("detectLocation");
+            const imsakTimeEl = document.getElementById("imsak-time");
+            const subuhTimeEl = document.getElementById("subuh-time");
+            const scheduleTable = document.getElementById("schedule-table");
+            const alarmImsak = document.getElementById("alarm-imsak");
+            const alarmMaghrib = document.getElementById("alarm-maghrib");
 
-        // API Konfigurasi
-        const API = {
-            CITIES: 'https://api.myquran.com/v1/sholat/kota/semua',
-            SCHEDULE: (cityId, year, month) => 
-                `https://api.myquran.com/v1/sholat/jadwal/${cityId}/${year}/${month}`
-        };
+            let darkMode = true;
+            let locationDetected = false;
 
-        // Inisialisasi
-        function init() {
-            loadNotificationSettings();
-            loadLastSchedule();
-        }
+            // Dark Mode Toggle
+            toggleDarkModeBtn.addEventListener("click", () => {
+                darkMode = !darkMode;
+                document.body.style.background = darkMode ? "#121212" : "#f4f4f4";
+                document.body.style.color = darkMode ? "#fff" : "#333";
+            });
 
-        // Deteksi lokasi
-        function getLocation() {
-            if(navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    position => getCityFromCoords(position.coords),
-                    error => showCitySelect()
-                );
-            } else {
-                showCitySelect();
+            // Detect Location & Fetch Prayer Times
+            detectLocationBtn.addEventListener("click", () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        fetchJadwal(lat, lon);
+                        locationDetected = true;
+                    });
+                } else {
+                    alert("Geolocation tidak didukung di browser ini.");
+                }
+            });
+
+            // Fetch Jadwal Imsakiyah
+            function fetchJadwal(lat, lon) {
+                const apiUrl = `https://equran.id/api/v2/imsakiyah/${lat},${lon}/2025/03`;
+                fetch(apiUrl)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status) {
+                            scheduleTable.innerHTML = "";
+                            data.data.forEach(day => {
+                                scheduleTable.innerHTML += `
+                                    <tr>
+                                        <td>${day.tanggal}</td>
+                                        <td>${day.imsak}</td>
+                                        <td>${day.subuh}</td>
+                                        <td>${day.dzuhur}</td>
+                                        <td>${day.ashar}</td>
+                                        <td>${day.maghrib}</td>
+                                        <td>${day.isya}</td>
+                                    </tr>
+                                `;
+                            });
+
+                            imsakTimeEl.textContent = data.data[0].imsak;
+                            subuhTimeEl.textContent = data.data[0].subuh;
+
+                            setInterval(() => checkPrayerTimes(data.data), 1000);
+                        }
+                    })
+                    .catch(err => console.error("Gagal mengambil data:", err));
             }
-        }
 
-        // Dapatkan kota berdasarkan koordinat
-        async function getCityFromCoords(coords) {
-            try {
-                const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=id`);
-                const data = await response.json();
-                const cityName = data.city;
-                await setCity(cityName);
-            } catch {
-                showCitySelect();
-            }
-        }
-
-        // Tampilkan pilihan kota
-        async function showCitySelect() {
-            const select = document.getElementById('citySelect');
-            select.style.display = 'block';
-            
-            if(!select.options.length) {
-                const cities = await fetch(API.CITIES).then(r => r.json());
-                cities.data.forEach(city => {
-                    const option = new Option(city.lokasi, city.id);
-                    select.add(option);
+            // Cek Waktu Sholat dan Alarm
+            function checkPrayerTimes(jadwal) {
+                const now = new Date();
+                const currentTime = now.getHours() + ":" + now.getMinutes();
+                
+                jadwal.forEach(day => {
+                    if (day.imsak === currentTime) alarmImsak.play();
+                    if (day.maghrib === currentTime) alarmMaghrib.play();
                 });
             }
-            
-            select.onchange = () => setCity(select.value);
-        }
-
-        // Set kota terpilih
-        async function setCity(cityId) {
-            currentCityId = cityId;
-            const today = new Date();
-            const schedule = await fetchSchedule(cityId, today.getFullYear(), today.getMonth() + 1);
-            processSchedule(schedule);
-            saveSchedule(schedule);
-        }
-
-        // Ambil jadwal dari API
-        async function fetchSchedule(cityId, year, month) {
-            const response = await fetch(API.SCHEDULE(cityId, year, month));
-            const data = await response.json();
-            return data.data.jadwal;
-        }
-
-        // Proses jadwal
-        function processSchedule(schedule) {
-            prayerTimes = schedule;
-            buildScheduleTable();
-            setupCountdown();
-            setupNotifications();
-        }
-
-        // Bangun tabel jadwal
-        function buildScheduleTable() {
-            const tbody = document.getElementById('scheduleTable');
-            tbody.innerHTML = prayerTimes.map(day => `
-                <tr>
-                    <td>${day.tanggal}</td>
-                    <td>${day.imsak}</td>
-                    <td>${day.subuh}</td>
-                    <td>${day.dzuhur}</td>
-                    <td>${day.ashar}</td>
-                    <td>${day.maghrib}</td>
-                    <td>${day.isya}</td>
-                </tr>
-            `).join('');
-        }
-
-        // Hitung mundur
-        function setupCountdown() {
-            if(intervalId) clearInterval(intervalId);
-            
-            intervalId = setInterval(() => {
-                const now = new Date();
-                const currentTime = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-                
-                const prayers = ['imsak', 'subuh', 'dzuhur', 'ashar', 'maghrib', 'isya'];
-                let nextPrayer = null;
-                
-                for(const prayer of prayers) {
-                    const [hours, minutes] = prayerTimes[0][prayer].split(':');
-                    const prayerTime = hours * 3600 + minutes * 60;
-                    
-                    if(prayerTime > currentTime) {
-                        nextPrayer = {
-                            name: prayer,
-                            time: prayerTime - currentTime
-                        };
-                        break;
-                    }
-                }
-                
-                updateCountdown(nextPrayer);
-            }, 1000);
-        }
-
-        // Update tampilan hitung mundur
-        function updateCountdown(prayer) {
-            const countdownElement = document.getElementById('countdown');
-            const progressElement = document.querySelector('.progress');
-            
-            if(!prayer) {
-                countdownElement.textContent = "00:00:00";
-                progressElement.style.background = 'conic-gradient(var(--primary) 0%';
-                return;
-            }
-            
-            const hours = Math.floor(prayer.time / 3600);
-            const minutes = Math.floor((prayer.time % 3600) / 60);
-            const seconds = prayer.time % 60;
-            
-            countdownElement.textContent = 
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            const progress = 100 - (prayer.time / 86400 * 100);
-            progressElement.style.background = `conic-gradient(var(--primary) ${progress}%, transparent ${progress}%)`;
-            document.getElementById('nextPrayerName').textContent = prayer.name.toUpperCase();
-        }
-
-        // Notifikasi
-        function setupNotifications() {
-            const settingsDiv = document.getElementById('notificationSettings');
-            const prayers = ['Imsak', 'Subuh', 'Dzuhur', 'Ashar', 'Maghrib', 'Isya'];
-            
-            settingsDiv.innerHTML = prayers.map(prayer => `
-                <label>
-                    <input type="checkbox" checked data-prayer="${prayer.toLowerCase()}">
-                    ${prayer}
-                </label>
-            `).join('');
-            
-            settingsDiv.querySelectorAll('input').forEach(checkbox => {
-                checkbox.checked = notificationSettings[checkbox.dataset.prayer] !== false;
-                checkbox.onchange = () => updateNotificationSettings(checkbox.dataset.prayer, checkbox.checked);
-            });
-        }
-
-        function updateNotificationSettings(prayer, enabled) {
-            notificationSettings[prayer] = enabled;
-            localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
-        }
-
-        function loadNotificationSettings() {
-            notificationSettings = JSON.parse(localStorage.getItem('notificationSettings') || '{}');
-        }
-
-        // Penyimpanan lokal
-        function saveSchedule(schedule) {
-            localStorage.setItem('lastSchedule', JSON.stringify({
-                data: schedule,
-                timestamp: Date.now()
-            }));
-        }
-
-        function loadLastSchedule() {
-            const lastSchedule = JSON.parse(localStorage.getItem('lastSchedule'));
-            if(lastSchedule && (Date.now() - lastSchedule.timestamp) < 86400000) {
-                prayerTimes = lastSchedule.data;
-                processSchedule(lastSchedule.data);
-            }
-        }
-
-        // Notifikasi suara
-        function playAdhan() {
-            const context = new AudioContext();
-            const oscillator = context.createOscillator();
-            const gainNode = context.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(context.destination);
-            
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(440, context.currentTime);
-            gainNode.gain.setValueAtTime(0.5, context.currentTime);
-            
-            oscillator.start();
-            gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 2);
-            oscillator.stop(context.currentTime + 2);
-        }
-
-        // Jalankan inisialisasi
-        init();
+        });
     </script>
+
 </body>
 </html>
