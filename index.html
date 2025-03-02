@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ramadhan Time 1446 H / 2025 M</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="icon.png" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div>
+          <h1>Imsakiyah</h1>
+          <p style="font-size: 14px;">
+            Code Web Design by
+            <a href="https://instagram.com/msukri_03">M Sukri</a>
+          </p>
+        </div>
+        <div>
+            <button id="darkModeToggle" title="Dark Mode"><i class="fas fa-moon"></i></button>
+            <button id="locationButton" title="Lokasi Otomatis "><i class="fas fa-location-arrow"></i></button>
+        </div>
+      </div>
+
+      <div class="controls">
+        <select id="provinsiSelect" title="Pilih Provinsi" disabled>
+          <option value="">Pilih Provinsi</option>
+        </select>
+        <select id="kotaSelect" title="Pilih Kota/Kabupaten" disabled>
+          <option value="">Pilih Kota/Kabupaten</option>
+        </select>
+      </div>
+
+      <div>
+        <p style="font-size: 12px; margin: 1rem">
+          Berikut ini adalah Jadwal <br> <span> Imsakiyah Ramadhan 1446 H / 2025 M </span> <br /> untuk Kota/Kabupaten di Indonesia. <br />
+         <br> Sumber dari data ini adalah <br> <span>Bimas Islam Kementrian Agama Republik Indonesia </span>.
+        </p>
+      </div>
+
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+
+      <div class="current-time" id="currentTime"></div>
+
+      <div class="schedule-table glass-card">
+        <table id="scheduleTable">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Hari</th>
+              <th>Imsak</th>
+              <th>Subuh</th>
+              <th>Dzuhur</th>
+              <th>Ashar</th>
+              <th>Maghrib</th>
+              <th>Isya</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <footer>
+        <p>
+          All Right Reserved &copy;2025 | Created by
+          <a href="https://instagram.com/msukri_03">@msukri_03</a> | EQuran.id |
+          Made by Moslem from Indonesia with ❤
+        </p>
+      </footer>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
