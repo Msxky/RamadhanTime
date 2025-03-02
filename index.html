@@ -3,70 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Ramadhan 2025</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Jadwal Imsakiyah 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #166d3b;
-            --accent-color: #fb8b24;
-            --text-color: #333;
-            --bg-color: #f5f5f5;
-            --card-bg: rgba(255, 255, 255, 0.7);
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --neumorphic-shadow1: rgba(255, 255, 255, 0.8);
-            --neumorphic-shadow2: rgba(0, 0, 0, 0.1);
+            --bg-color: #f0f2f5;
+            --text-color: #1e1e1e;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --primary-color: #2F80ED;
+            --transition: all 0.3s ease;
         }
 
-        [data-theme="dark"] {
-            --primary-color: #6d9eeb;
-            --secondary-color: #16a34a;
-            --accent-color: #ff9f1c;
-            --text-color: #e0e0e0;
-            --bg-color: #121212;
-            --card-bg: rgba(30, 30, 30, 0.7);
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --glass-bg: rgba(30, 30, 30, 0.25);
-            --glass-border: rgba(80, 80, 80, 0.3);
-            --neumorphic-shadow1: rgba(40, 40, 40, 0.8);
-            --neumorphic-shadow2: rgba(0, 0, 0, 0.5);
+        .dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --card-bg: rgba(30, 30, 30, 0.8);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg-color);
             color: var(--text-color);
+            transition: var(--transition);
             min-height: 100vh;
-            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 800 800"%3E%3Cg fill="none" stroke="%23404" stroke-width="1"%3E%3Cpath d="M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63"%3E%3C/path%3E%3Cpath d="M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764"%3E%3C/path%3E%3Cpath d="M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880"%3E%3C/path%3E%3Cpath d="M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382"%3E%3C/path%3E%3Cpath d="M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269"%3E%3C/path%3E%3C/g%3E%3Cg fill="%23505"%3E%3Ccircle cx="769" cy="229" r="5"/%3E%3Ccircle cx="539" cy="269" r="5"/%3E%3Ccircle cx="603" cy="493" r="5"/%3E%3Ccircle cx="731" cy="737" r="5"/%3E%3Ccircle cx="520" cy="660" r="5"/%3E%3Ccircle cx="309" cy="538" r="5"/%3E%3Ccircle cx="295" cy="764" r="5"/%3E%3Ccircle cx="40" cy="599" r="5"/%3E%3Ccircle cx="102" cy="382" r="5"/%3E%3Ccircle cx="127" cy="80" r="5"/%3E%3Ccircle cx="370" cy="105" r="5"/%3E%3Ccircle cx="578" cy="42" r="5"/%3E%3Ccircle cx="237" cy="261" r="5"/%3E%3Ccircle cx="390" cy="382" r="5"/%3E%3C/g%3E%3C/svg%3E');
-            background-attachment: fixed;
             padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px var(--shadow-color);
-        }
-
-        h2 {
-            color: var(--secondary-color);
-            margin-bottom: 15px;
-            font-size: 1.8rem;
         }
 
         .container {
@@ -74,384 +40,116 @@
             margin: 0 auto;
         }
 
-        .glass-card {
-            background: var(--glass-bg);
-            border-radius: 15px;
-            padding: 25px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px var(--shadow-color);
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 30px;
         }
 
-        .neumorphic-card {
-            background: var(--bg-color);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 
-                8px 8px 16px var(--neumorphic-shadow2),
-                -8px -8px 16px var(--neumorphic-shadow1);
-            margin-bottom: 30px;
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .controls {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
             gap: 15px;
-            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
-        .toggle-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
+        select, button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            backdrop-filter: blur(5px);
             cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 30px;
+            transition: var(--transition);
         }
 
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .toggle-slider {
-            background-color: var(--primary-color);
-        }
-
-        input:checked + .toggle-slider:before {
-            transform: translateX(30px);
-        }
-
-        .toggle-label {
-            font-weight: 500;
-        }
-
-        .current-time {
-            text-align: center;
-            font-size: 2.2rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-        }
-
-        .prayer-times {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .prayer-time {
-            flex: 1 1 150px;
-            text-align: center;
-            padding: 15px;
-            border-radius: 15px;
-            background: var(--card-bg);
-            box-shadow: 
-                5px 5px 10px var(--neumorphic-shadow2),
-                -5px -5px 10px var(--neumorphic-shadow1);
-            transition: transform 0.3s;
-        }
-
-        .prayer-time:hover {
-            transform: translateY(-5px);
-        }
-
-        .prayer-time h3 {
-            margin-bottom: 8px;
-            color: var(--primary-color);
-        }
-
-        .prayer-time p {
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-
-        .prayer-time.active {
+        button:hover, select:hover {
             background: var(--primary-color);
             color: white;
         }
 
-        .prayer-time.active h3 {
-            color: white;
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        .prayer-time.upcoming {
-            border: 2px solid var(--accent-color);
-        }
-
-        .schedule-container {
+        .schedule-table {
+            width: 100%;
             overflow-x: auto;
-            margin-bottom: 25px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            text-align: center;
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
+            margin-top: 20px;
         }
 
-        th {
-            background-color: var(--primary-color);
-            color: white;
+        th, td {
             padding: 12px;
-            position: sticky;
-            top: 0;
-        }
-
-        td {
-            padding: 10px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        tr:hover {
-            background-color: var(--glass-border);
-        }
-
-        .notification-settings {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .notification-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 8px var(--shadow-color);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px var(--shadow-color);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
-
-        .btn-secondary {
-            background: var(--secondary-color);
-        }
-
-        footer {
             text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            font-size: 0.9rem;
-            color: var(--text-color);
-            opacity: 0.8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .footer-icon {
-            color: var(--accent-color);
+        .current-time {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin: 20px 0;
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
+            .header {
+                flex-direction: column;
+                gap: 20px;
             }
             
-            h2 {
-                font-size: 1.5rem;
-            }
-
             .controls {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .current-time {
-                font-size: 1.8rem;
-            }
-
-            .prayer-time {
-                flex: 1 1 120px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
-            .glass-card, .neumorphic-card {
-                padding: 15px;
-            }
-
-            .prayer-times {
-                flex-direction: column;
-            }
-
-            .prayer-time {
                 width: 100%;
+                flex-direction: column;
             }
-        }
-
-        /* Animation for upcoming prayer time */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .upcoming-animation {
-            animation: pulse 2s infinite;
-        }
-
-        /* Loader */
-        .loader {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-        }
-
-        .loader:after {
-            content: " ";
-            display: block;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            border: 6px solid var(--primary-color);
-            border-color: var(--primary-color) transparent var(--primary-color) transparent;
-            animation: loader 1.2s linear infinite;
-        }
-
-        @keyframes loader {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body data-theme="dark">
+<body>
     <div class="container">
-        <header>
-            <h1><i class="fas fa-moon"></i> Jadwal Ramadhan 2025</h1>
-            <h2>1 Maret - 31 Maret 2025</h2>
-        </header>
-
-        <div class="controls glass-card">
-            <div class="toggle-wrapper">
-                <label class="toggle-switch">
-                    <input type="checkbox" id="theme-toggle" checked>
-                    <span class="toggle-slider"></span>
-                </label>
-                <span class="toggle-label">Mode Gelap</span>
+        <div class="header">
+            <h1>Jadwal Imsakiyah 2025</h1>
+            <div class="controls">
+                <button id="darkModeToggle">🌓 Tema</button>
+                <button id="locateBtn">📍 Deteksi Lokasi</button>
             </div>
+        </div>
 
-            <div class="toggle-wrapper">
-                <label class="toggle-switch">
-                    <input type="checkbox" id="auto-detect">
-                    <span class="toggle-slider"></span>
-                </label>
-                <span class="toggle-label">Deteksi Lokasi Otomatis</span>
-            </div>
-
-            <div class="location-selector">
-                <select id="city-selector" class="btn">
-                    <option value="jakarta">Jakarta</option>
-                    <option value="surabaya">Surabaya</option>
-                    <option value="bandung">Bandung</option>
-                    <option value="medan">Medan</option>
-                    <option value="makassar">Makassar</option>
-                    <option value="semarang">Semarang</option>
-                    <option value="palembang">Palembang</option>
-                    <option value="malang">Malang</option>
+        <div class="card">
+            <div class="controls">
+                <select id="provinceSelect" disabled>
+                    <option>Pilih Provinsi</option>
+                </select>
+                <select id="citySelect" disabled>
+                    <option>Pilih Kota/Kab</option>
                 </select>
             </div>
         </div>
 
-        <div class="neumorphic-card">
-            <div class="current-time" id="current-time">
-                Loading...
-            </div>
-
-            <div class="prayer-times" id="today-prayer-times">
-                <div class="prayer-time">
-                    <h3>Imsak</h3>
-                    <p id="imsak-time">--:--</p>
-                </div>
-                <div class="prayer-time">
-                    <h3>Subuh</h3>
-                    <p id="subuh-time">--:--</p>
-                </div>
-                <div class="prayer-time">
-                    <h3>Dzuhur</h3>
-                    <p id="dzuhur-time">--:--</p>
-                </div>
-                <div class="prayer-time">
-                    <h3>Ashar</h3>
-                    <p id="ashar-time">--:--</p>
-                </div>
-                <div class="prayer-time">
-                    <h3>Maghrib</h3>
-                    <p id="maghrib-time">--:--</p>
-                </div>
-                <div class="prayer-time">
-                    <h3>Isya</h3>
-                    <p id="isya-time">--:--</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="glass-card">
-            <h2>Jadwal Ramadhan 2025</h2>
-            <div class="schedule-container">
-                <div id="schedule-loader" class="loader"></div>
-                <table id="ramadhan-schedule" style="display: none;">
+        <div class="card">
+            <div class="current-time" id="currentTime"></div>
+            <div class="schedule-table">
+                <table id="scheduleTable">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
-                            <th>Hari</th>
                             <th>Imsak</th>
                             <th>Subuh</th>
                             <th>Dzuhur</th>
@@ -460,76 +158,186 @@
                             <th>Isya</th>
                         </tr>
                     </thead>
-                    <tbody id="schedule-body">
-                        <!-- Schedule will be populated by JavaScript -->
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
 
-        <div class="neumorphic-card">
-            <h2>Pengaturan Notifikasi</h2>
-            <div class="notification-settings">
-                <div class="notification-item">
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="imsak-notification">
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="toggle-label">Notifikasi Imsak</span>
-                </div>
-                <div class="notification-item">
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="subuh-notification">
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="toggle-label">Notifikasi Subuh</span>
-                </div>
-                <div class="notification-item">
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="dzuhur-notification">
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="toggle-label">Notifikasi Dzuhur</span>
-                </div>
-                <div class="notification-item">
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="ashar-notification">
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="toggle-label">Notifikasi Ashar</span>
-                </div>
-                <div class="notification-item">
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="maghrib-notification">
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="toggle-label">Notifikasi Maghrib</span>
-                </div>
-                <div class="notification-item">
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="isya-notification">
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="toggle-label">Notifikasi Isya</span>
-                </div>
-            </div>
-            <div style="margin-top: 20px;">
-                <button id="test-notification" class="btn">Tes Notifikasi</button>
-                <button id="test-alarm" class="btn btn-secondary" style="margin-left: 10px;">Tes Alarm</button>
-            </div>
-        </div>
-
-        <footer>
-            <p>
-                <i class="fas fa-code footer-icon"></i> Jadwal Ramadhan 2025 | 
-                Data dari API: <a href="https://equran.id/apidev/imsakiyah" target="_blank">equran.id</a>
-            </p>
-        </footer>
+        <div class="loading">Memuat...</div>
     </div>
 
-    <!-- Audio files (Base64 encoded to be included directly in the HTML) -->
-    <audio id="imsak-alarm" preload="auto">
-        <source src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+NAwAAAAAAAAAAAUEAKHgu1Pn/FAEAhH+QhCAsQEBAQPi/5N//4sIIA/4iJiIuXf///EXHf/////+IQIAAI0GEOIAmBAgGBJ/7kNznRAiwErMgkDiIk8gZP/4lIX//7smQxP//5sIEsQ7//+VSBAAEMP9AgEAhEP+QhCAQTMBA+AgQFj+L4vmP/wQIED/iLiIuPf///AWP///////EIRAIRDodDoRXV7xBEIQhEQCEDBQYQCChAQcXDCgopFIqE4qFCEiISDJMgQPSK4/P///7xfxcxf///wsEiMJeWZmZmZjMdzdIUGECQkKIYGTZoyG8/+NAwC8R8nK5nHmTrMXyqVJ6N63GpUdUoGgYoUZCKNGjRo/2HWzQgASj5o0GzEX7//////////5f6gYJgAAACDHMTGGKsTYbCVnYUPU+GIU2LsBiKzGTGbGP//////////lzJlAAAIaXqZfL8qZJSS0z/pQo7laE+lsLNcZM4RXKmZWZmaON9//////////////+dnXttnNtthwQFAoIBgUYfgHnHQBLgJzRAMQHIcTdAG7fmY/+NAwF0aaraQAZlrAdACUNNWrMRj/uZWVZsxGZmdmZ42zQi3///////6ZkYs8gA5gJ4B+YAuBbmG3hgxgS4E4YtcVPmEHAvJhtYE8YFUAhGAogZ5gPIEm+r9LnEgymAKdT///6AgYCA8KDhAkYFCAlGAAABJgAYA0YPpS8mFpUlZgiACqFqwsxkynL//3///7RmVbgqVoF1dJ0BUQjIjjIZ///////////9vbcYGAEDlFX/+NAwHkZNaakAYbIAP///////////////////+8ddLEqBQQjIjjIZ///////////97e2KBgBA5RUUigDG4VUpTq4oDpYPjQjQhBFEILuRj/4zGzMfMynTP/////////////5uzMxoDJcJcJCDtFTRLrpIBJcJCDtFTRLrRXq2NTqoJ0GbJYNAAQCgcOzLdmG6Z////7R//5meUyZw1wMV0sKoSLTJjR///////////+2tjmZmQEAEB0Vf/+NAwJoYfaKsAYyYAP///////////////////+88tNKqXyTEVlnNkU////////v////+XJaHGAOAIMAAD6///////////////////+880ZIwIAYAgwAAAAAAGRd////9l3///////////8uS0OMAcAQYAAH/////////////////////PPLTSql8kxFZZzZFP/////////7////5v/+NAwK0YTaK0AYyYAPlQzJnCAgJMg6FHT//////////////////////////////////////////////////////////////////////9sbCJK4GHDxKMk4mQDVpFWimUZPXP////////v//////+3szK+sDw4ypU49daTAEwPDjKlTj11pMP/+///////////////////////7Y8lSB4QZMoEqTASFnQCAC0ql////////7//////trZmZmQEAEB0VFP/+NAwMwYZaLEAYyYAIORQQNCzAxDjwxDVP////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////IkQpBZuNDRDTJoSdDWTP/+v//////////////////////tZwdloCRZdmImQJ2ZmV9YHhxlSpx660mAJgeHGVKnHrrSYf/9///////////////////////7Y8lThgYAgcHB0Vf/+NAwP8X3XKoAZdAAP///////////////////+88tNKqXyTEVlnNkU////////v////+XJaHGAOAIMAAD6f//////////////5mV8MgUWFyRV///////////////////////////////////////////////////////////////////9sbCJK4GHDxKMk4mQDVpFWimUZPXP////////v//////+3szK+sDw4ypU49daTAEwPDjKlTj11pMP/+///////////////////////7Y8lSB4QZMoEqTASFnQCAC0ql////////7//////tXCyZDiDNjQwwRTJkUNjTP/+v//////////////////////tZwdloCRZdmImQJ2ZmV9YHhxlSpx660mAJgeHGVKnHrrSYf/9///////////////////////7Y8lThgYAgcHPeO0UIxMqgwSGiRYbH///////////////+YIBiQoUMLGRYmaGjCR///9v//+NAwP8ebXKwAYaIAf///////////////////+88tNKqXyTEVlnNkU////////v////+XJaHGAOAIMAAD6///////////////////+eemmcoGQUORV///////////////////////////////////////////////////////////////////" type="audio/mpeg">
-    </audio>
-    <audio id="adzan-alarm" preload="auto">
-        <source src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+NAwAAAAAAAAAAAUEAPXwQJAhP+QhCEIQhAIBAMQh/4hAQB+E+IQEE+fn//hPiEIQhCEAmYQhCEAQBAEJ/5/+QhAMf/kIRDgIRMdEOc5znIQnOQhP////yEJgAAhP+c5zgAT//OQgH/+c5CEJznOQgCc5CEAQgCAJ/5//+QgGAAAAK3////yq0VACdLvUWspdRNRCZmw7XHdS0cZStcKGrZDvWzFpStYsJ0xQ0qGEmJyB0o8USZAYcZl9NUlbOF/+NAwC8aW0a6W8F6/H5Wxi0lB8wVxvI75MfMWWD00iRp59v34LE1WXyiDl3C1YotC41fOW9/////ylG4s3vLVKOQZzz5Rb33KMp7gf/JcvZRKU6zlFxzlGUb9////5y9PQ+SjmLx/0MoyjcnK2UZT3g5RuLiiiio3FxTB5RRRRv/+cXFm4s5OUZRuLlHMoyjcXFPco3F4//OLN///nK2UZRuLiXUWUXAiVFFFG//5RceCjiCgUkDJFwPgQ/+NAwDsYezK+u8F7jKkCGFngXqyQNBkRqbTIZFpxoUDnuFjJaKC6G7KGYajWMEQ0KqLkDjU3iQQHxwwQDkIADXL5X2YTqVkNILQTYWcL+AzQZoM0AyAM0ywcYOMBkAZaWiYJMHHAyQMgD9GMGgugA5Ij9DdNgKqKXVqUOEaQKTCIJhASWAeQGVwJsMBbFdSmIkINYeXS8Jhu0zcTCLTNfmpkO88sRKQM7ikDO4bTdlZ9uWfxDf/+NAwEEX+0K6C8B7jPQm1YAW+WzEihXCGkS4g4xCdESURUq5ZCZ1z3TtOWVqm0UrZM1WV0rOrWKIarrq22stZ9kLLLbNcLbsqUROEqUH5BKTOFKVqvI2aOJF7ZcuRUjZsWNUCsIKXTT4SxF4TkCDQiKdSb03qxC2G3eUHYbcuEqFQlKVCsFXSlaJKUvD2S2MYpSsllMt0qY
+    <script>
+        const API_BASE = 'https://equran.id/api/v2/imsakiyah';
+        let currentSchedule = [];
+        let notificationsEnabled = false;
+
+        // Theme Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        });
+
+        // Initialize theme
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Geolocation
+        document.getElementById('locateBtn').addEventListener('click', () => {
+            if (!navigator.geolocation) {
+                alert('Geolocation tidak didukung di browser ini');
+                return;
+            }
+            
+            navigator.geolocation.getCurrentPosition(
+                async position => {
+                    try {
+                        const { latitude, longitude } = position.coords;
+                        const location = await reverseGeocode(latitude, longitude);
+                        // Implement geocoding mapping here
+                    } catch (error) {
+                        alert('Gagal mendapatkan lokasi');
+                    }
+                },
+                error => alert('Izinkan akses lokasi untuk deteksi otomatis')
+            );
+        });
+
+        // Populate Provinces
+        const provinceSelect = document.getElementById('provinceSelect');
+        const citySelect = document.getElementById('citySelect');
+
+        async function fetchProvinces() {
+            try {
+                const response = await fetch(`${API_BASE}/provinsi`);
+                const { data } = await response.json();
+                provinceSelect.innerHTML = '<option>Pilih Provinsi</option>' + 
+                    data.map(p => `<option>${p}</option>`).join('');
+                provinceSelect.disabled = false;
+            } catch (error) {
+                console.error('Gagal memuat provinsi:', error);
+            }
+        }
+
+        provinceSelect.addEventListener('change', async e => {
+            if (!e.target.value) return;
+            citySelect.disabled = true;
+            citySelect.innerHTML = '<option>Pilih Kota/Kab</option>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/kabkota`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ provinsi: e.target.value })
+                });
+                
+                const { data } = await response.json();
+                citySelect.innerHTML = '<option>Pilih Kota/Kab</option>' + 
+                    data.map(c => `<option>${c}</option>`).join('');
+                citySelect.disabled = false;
+            } catch (error) {
+                console.error('Gagal memuat kota:', error);
+            }
+        });
+
+        citySelect.addEventListener('change', async e => {
+            if (!e.target.value) return;
+            showLoading(true);
+            
+            try {
+                const response = await fetch(`${API_BASE}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        provinsi: provinceSelect.value,
+                        kabkota: citySelect.value
+                    })
+                });
+                
+                const { data } = await response.json();
+                currentSchedule = data[0].imsakiyah;
+                updateScheduleTable();
+                localStorage.setItem('lastLocation', JSON.stringify({
+                    province: provinceSelect.value,
+                    city: citySelect.value
+                }));
+            } catch (error) {
+                console.error('Gagal memuat jadwal:', error);
+            }
+            
+            showLoading(false);
+        });
+
+        function updateScheduleTable() {
+            const tbody = document.querySelector('#scheduleTable tbody');
+            tbody.innerHTML = currentSchedule.map(day => `
+                <tr>
+                    <td>${day.tanggal}/3/2025</td>
+                    <td>${day.imsak}</td>
+                    <td>${day.subuh}</td>
+                    <td>${day.dzuhur}</td>
+                    <td>${day.ashar}</td>
+                    <td>${day.maghrib}</td>
+                    <td>${day.isya}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Real-time Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = 
+                now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            
+            checkPrayerTime(now);
+        }
+        setInterval(updateClock, 1000);
+
+        // Notifications
+        function checkPrayerTime(now) {
+            if (!currentSchedule.length) return;
+            
+            const currentDate = now.getDate();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            const today = currentSchedule.find(d => d.tanggal === currentDate);
+            if (!today) return;
+            
+            Object.entries(today).forEach(([prayer, time]) => {
+                if (prayer === 'tanggal') return;
+                const [hour, minute] = time.split(':').map(Number);
+                const prayerTime = hour * 60 + minute;
+                
+                if (currentTime >= prayerTime - 5 && currentTime < prayerTime) {
+                    showNotification(`Waktu ${prayer} dalam 5 menit`);
+                }
+            });
+        }
+
+        function showNotification(message) {
+            if (!notificationsEnabled) {
+                Notification.requestPermission().then(perm => {
+                    if (perm === 'granted') notificationsEnabled = true;
+                });
+                return;
+            }
+            
+            new Notification('Pengingat Waktu Sholat', { body: message });
+        }
+
+        // Helpers
+        function showLoading(show) {
+            document.querySelector('.loading').style.display = show ? 'block' : 'none';
+        }
+
+        // Initial Load
+        fetchProvinces();
+        const lastLocation = JSON.parse(localStorage.getItem('lastLocation'));
+        if (lastLocation) {
+            provinceSelect.value = lastLocation.province;
+            // Trigger city load
+        }
+    </script>
+</body>
+</html>
