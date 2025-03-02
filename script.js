@@ -220,6 +220,7 @@ async function setLocation(location) {
 function setupNotifications() {
   if (!("Notification" in window)) return;
   if (notificationPermission !== "granted") {
+    alert('Silakan aktifkan notifikasi untuk menerima pengingat waktu sholat.');
     Notification.requestPermission().then((permission) => {
       notificationPermission = permission;
     });
@@ -250,6 +251,26 @@ function scheduleNotification(time, prayerName) {
     }, diff);
   }
 }
+
+// function scheduleNotification(time, prayerName) {
+//     const now = new Date();
+    
+//     // Mengurangi 5 menit (300.000 ms) dari waktu yang ditentukan
+//     const notificationTime = new Date(time.getTime() - 5 * 60 * 1000); // 5 menit sebelumnya
+    
+//     const diff = notificationTime - now;
+  
+//     if (diff > 0) {
+//       setTimeout(() => {
+//         if (notificationPermission === "granted") {
+//           new Notification(`Waktu ${prayerName} akan segera tiba`, {
+//             body: `Ingat, sholat ${prayerName} akan dimulai dalam 5 menit!`,
+//           });
+//         }
+//       }, diff);
+//     }
+//   }
+  
 
 function getDayName(day) {
   const date = new Date(2025, 2, day);
