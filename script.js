@@ -1,277 +1,165 @@
-        // Konfigurasi
-        const API_BASE = 'https://equran.id/api/v2';
-        const MONTH_YEAR = { year: 2025, month: 3 };
-        const savedTheme = localStorage.getItem('theme');
-        const savedProvince = localStorage.getItem('provinsi');
-        const savedCity = localStorage.getItem('kota');
+:root {
+  --bg-color: #161616;
+  --text-color: #EAEAEA;
+  --card-bg: #1b1b1b;
+  --shadow: 10px 10px 30px rgba(0, 255, 255, 0.3), 
+            -10px -10px 30px rgba(255, 0, 255, 0.3);
+  --shadow-inset: inset 5px 5px 15px rgba(0, 255, 255, 0.2),
+                  inset -5px -5px 15px rgba(255, 0, 255, 0.2);
+  --glass-blur: blur(10px);
+  --neon-border: 2px solid rgba(0, 255, 255, 0.8);
+}
 
-        // Elemen DOM
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const locationButton = document.getElementById('locationButton');
-        const provinsiSelect = document.getElementById('provinsiSelect');
-        const kotaSelect = document.getElementById('kotaSelect');
-        const tableBody = document.getElementById('tableBody');
-        const currentTimeElement = document.getElementById('currentTime');
+.dark-mode {
+  --bg-color: #d6d6d6;
+  --text-color: #111111;
+  --card-bg: #EAEAEA;
+  --shadow: 10px 10px 40px rgba(255, 0, 255, 0.4), 
+            -10px -10px 40px rgba(0, 255, 255, 0.4);
+  --shadow-inset: inset 5px 5px 15px rgba(255, 0, 255, 0.3),
+                  inset -5px -5px 15px rgba(0, 255, 255, 0.3);
+  --neon-border: 2px solid rgba(255, 0, 255, 0.8);
+}
 
-        // State
-        let provinces = [];
-        let cities = [];
-        let currentSchedule = [];
-        let notificationPermission = Notification.permission;
-
-        // Inisialisasi Tema
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            /* transition: all 0.3s ease; */
         }
 
-        // Event Listeners
-        darkModeToggle.addEventListener('click', toggleDarkMode);
-        locationButton.addEventListener('click', getLocation);
-        provinsiSelect.addEventListener('change', fetchCities);
-        kotaSelect.addEventListener('change', fetchSchedule);
+        a{
+          font-weight: 600;
+          color: var(--neon-border);
+          text-shadow: var(--shadow);
+          text-decoration: none;
+          /* font-style: italic; */
+        }
 
-        // Fungsi Utama
-        async function init() {
-            showLoading();
-            await fetchProvinces();
-            if (savedProvince && savedCity) {
-                provinsiSelect.value = savedProvince;
-                await fetchCities();
-                kotaSelect.value = savedCity;
-                await fetchSchedule();
+        span{
+          font-weight: 600;
+          text-shadow: var(--shadow);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            overflow-x: auto;
+          }
+
+          .glass-card::-webkit-scrollbar{
+            display: none;
+          }
+          
+          .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        button:active {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--text-color);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+          }
+
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-inset);
+          }
+          
+          th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          }
+          
+          .current-time {
+          text-shadow: var(--shadow);
+            text-align: center;
+            font-size: 1.6em;
+            font-weight: 800;
+            margin: 20px 0 0 0;
+        }
+
+        .current-date{
+          text-shadow: var(--shadow);
+            text-align: center;
+            font-size: 1em;
+            font-weight: 800;
+            margin: 0 0 20px 0;
+        }
+
+        footer{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          font-size: 12px;
+          padding: 0 2px;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
             }
-            hideLoading();
-        }
-
-        // Fungsi Fetch Data
-        async function fetchProvinces() {
-            try {
-                const response = await fetch(`${API_BASE}/imsakiyah/provinsi`);
-                const data = await response.json();
-                provinces = data.data;
-                populateSelect(provinsiSelect, provinces);
-                provinsiSelect.disabled = false;
-            } catch (error) {
-                showError('Gagal memuat data provinsi');
-            }
-        }
-
-        async function fetchCities() {
-            const provinsi = provinsiSelect.value;
-            if (!provinsi) return;
-
-            showLoading();
-            try {
-                const response = await fetch(`${API_BASE}/imsakiyah/kabkota`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ provinsi })
-                });
-                const data = await response.json();
-                cities = data.data;
-                populateSelect(kotaSelect, cities);
-                kotaSelect.disabled = false;
-                localStorage.setItem('provinsi', provinsi);
-                hideLoading();
-            } catch (error) {
-                showError('Gagal memuat data kota');
-            }
-        }
-
-        async function fetchSchedule() {
-            const provinsi = provinsiSelect.value;
-            const kabkota = kotaSelect.value;
-            if (!provinsi || !kabkota) return;
-
-            showLoading();
-            try {
-                const response = await fetch(`${API_BASE}/imsakiyah`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ provinsi, kabkota })
-                });
-                const data = await response.json();
-                currentSchedule = data.data[0].imsakiyah;
-                renderSchedule();
-                localStorage.setItem('kota', kabkota);
-                setupNotifications();
-                hideLoading();
-            } catch (error) {
-                showError('Gagal memuat jadwal');
-            }
-        }
-
-        // Fungsi Render
-        function renderSchedule() {
-            tableBody.innerHTML = currentSchedule.map(day => `
-                <tr>
-                    <td>${day.tanggal}</td>
-                    <td>${getDayName(day.tanggal)}</td>
-                    <td>${day.imsak}</td>
-                    <td>${day.subuh}</td>
-                    <td>${day.dzuhur}</td>
-                    <td>${day.ashar}</td>
-                    <td>${day.maghrib}</td>
-                    <td>${day.isya}</td>
-                </tr>
-            `).join('');
-        }
-
-        // Fungsi Bantuan
-        function populateSelect(selectElement, data) {
-            selectElement.innerHTML = data.map(item => 
-                `<option value="${item}">${item}</option>`
-            ).join('');
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', 
-                document.body.classList.contains('dark-mode') ? 'dark' : 'light'
-            );
-            darkModeToggle.innerHTML = document.body.classList.contains('dark-mode') 
-                ? '<i class="fas fa-sun"></i>' 
-                : '<i class="fas fa-moon"></i>';
-        }
-
-        async function getLocation() {
-            if (!navigator.geolocation) {
-                showError('Geolocation tidak didukung');
-                return;
-            }
-        
-            showLoading();
-            try {
-                const position = await new Promise((resolve, reject) => 
-                    navigator.geolocation.getCurrentPosition(resolve, reject)
-                );
-                const { latitude, longitude } = position.coords;
-                const location = await reverseGeocode(latitude, longitude);
-                await setLocation(location);
-            } catch (error) {
-                if (error.code === error.PERMISSION_DENIED) {
-                    showError('Pengguna menolak untuk memberikan izin lokasi');
-                } else if (error.code === error.POSITION_UNAVAILABLE) {
-                    showError('Posisi tidak dapat ditemukan');
-                } else if (error.code === error.TIMEOUT) {
-                    showError('Waktu permintaan lokasi habis');
-                } else {
-                    showError('Gagal mendapatkan lokasi');
-                }
-            }
-            hideLoading();
-        }
-        
-        async function reverseGeocode(lat, lon) {
-            try {
-                const response = await fetch(
-                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
-                );
-                const data = await response.json();
-                return data.address;
-            } catch (error) {
-                throw new Error('Gagal mendapatkan lokasi');
-            }
-        }
-        
-        async function setLocation(location) {
-            const province = location.state || location.province;
-            if (!province) {
-                showError('Provinsi tidak ditemukan');
-                return;
-            }
-        
-            const matchedProvince = provinces.find(p => 
-                p.toLowerCase().includes(province.toLowerCase())
-            );
-        
-            if (matchedProvince) {
-                provinsiSelect.value = matchedProvince;
-                await fetchCities();
-        
-                const city = location.city || location.town;
-                if (!city) {
-                    showError('Kota tidak ditemukan');
-                    return;
-                }
-        
-                const matchedCity = cities.find(c => 
-                    c.toLowerCase().includes(city.toLowerCase())
-                );
-        
-                if (matchedCity) {
-                    kotaSelect.value = matchedCity;
-                    await fetchSchedule();
-                } else {
-                    showError('Kota tidak ditemukan');
-                }
-            } else {
-                showError('Provinsi tidak ditemukan');
-            }
-        }
-        
-
-        function setupNotifications() {
-            if (!('Notification' in window)) return;
-            if (notificationPermission !== 'granted') {
-                Notification.requestPermission().then(permission => {
-                    notificationPermission = permission;
-                });
-            }
-
-            currentSchedule.forEach(day => {
-                Object.entries(day).forEach(([key, time]) => {
-                    if (key === 'tanggal') return;
-                    const notificationTime = new Date(
-                        `${MONTH_YEAR.year}-${MONTH_YEAR.month}-${day.tanggal}T${time}:00`
-                    );
-                    scheduleNotification(notificationTime, key);
-                });
-            });
-        }
-
-        function scheduleNotification(time, prayerName) {
-            const now = new Date();
-            const diff = time - now;
             
-            if (diff > 0) {
-                setTimeout(() => {
-                    if (notificationPermission === 'granted') {
-                        new Notification(`Waktu ${prayerName} telah tiba`, {
-                            body: `Selamat menunaikan ibadah ${prayerName}`
-                        });
-                    }
-                }, diff);
+            table {
+                font-size: 14px;
             }
         }
 
-        function getDayName(day) {
-            const date = new Date(2025, 2, day);
-            return date.toLocaleDateString('id-ID', { weekday: 'long' });
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-
-        function updateTime() {
-            const now = new Date();
-            currentTimeElement.textContent = now.toLocaleTimeString('id-ID', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-        }
-
-        function showLoading() {
-            document.querySelector('.loading').style.display = 'block';
-        }
-
-        function hideLoading() {
-            document.querySelector('.loading').style.display = 'none';
-        }
-
-        function showError(message) {
-            alert(message);
-        }
-
-        // Inisialisasi
-        init();
-        setInterval(updateTime, 1000);
