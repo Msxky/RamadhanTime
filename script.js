@@ -13,6 +13,7 @@ const kotaSelect = document.getElementById("kotaSelect");
 const tableBody = document.getElementById("tableBody");
 const currentTimeElement = document.getElementById("currentTime");
 const currentDateElement = document.getElementById("currentDate");
+const resetButton = document.getElementById('resetButton');
 
 // State
 let provinces = [];
@@ -31,6 +32,7 @@ darkModeToggle.addEventListener("click", toggleDarkMode);
 locationButton.addEventListener("click", getLocation);
 provinsiSelect.addEventListener("change", fetchCities);
 kotaSelect.addEventListener("change", fetchSchedule);
+resetButton.addEventListener('click', resetData);
 
 // Fungsi Utama
 async function init() {
@@ -129,6 +131,25 @@ function populateSelect(selectElement, data) {
     .map((item) => `<option value="${item}">${item}</option>`)
     .join("");
 }
+
+// Fungsi Reset
+function resetData() {
+    // Konfirmasi reset
+  const isConfirmed = confirm('Apakah Anda yakin ingin mereset semua data dan izin?');
+  if (!isConfirmed) {
+    // Jika pengguna membatalkan, keluar dari fungsi
+    return;
+  }
+    // Menghapus data yang disimpan di localStorage
+    localStorage.removeItem('theme');
+    localStorage.removeItem('provinsi');
+    localStorage.removeItem('kota');
+  
+    // Reset izin notifikasi
+    notificationPermission = Notification.permission = 'default';
+      alert('Data telah direset dan izin notifikasi telah dihapus.');
+      location.reload();
+  }
 
 function toggleDarkMode() {
   document.body.classList.toggle("dark-mode");
