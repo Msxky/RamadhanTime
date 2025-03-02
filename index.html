@@ -3,21 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Imsakiyah 2025</title>
+    <title>Ramadhan Time 1446 H / 2025 M</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #f0f2f5;
-            --text-color: #1e1e1e;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --primary-color: #2F80ED;
-            --transition: all 0.3s ease;
+            --bg-color: #e0e5ec;
+            --text-color: #2d4263;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --shadow: 20px 20px 60px #bebebe, 
+                      -20px -20px 60px #ffffff;
+            --shadow-inset: inset 5px 5px 10px #bebebe,
+                          inset -5px -5px 10px #ffffff;
         }
 
         .dark-mode {
             --bg-color: #1a1a1a;
             --text-color: #ffffff;
-            --card-bg: rgba(30, 30, 30, 0.8);
+            --card-bg: rgba(0, 0, 0, 0.3);
+            --shadow: 20px 20px 60px #0d0d0d, 
+                      -20px -20px 60px #272727;
+            --shadow-inset: inset 5px 5px 10px #0d0d0d,
+                          inset -5px -5px 10px #272727;
         }
 
         * {
@@ -25,12 +32,12 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
         }
 
         body {
-            background: var(--bg-color);
+            background-color: var(--bg-color);
             color: var(--text-color);
-            transition: var(--transition);
             min-height: 100vh;
             padding: 20px;
         }
@@ -47,233 +54,241 @@
             margin-bottom: 30px;
         }
 
-        .card {
+        .glass-card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 20px;
+            box-shadow: var(--shadow);
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .controls {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         select, button {
-            padding: 10px 15px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: var(--card-bg);
             color: var(--text-color);
-            backdrop-filter: blur(5px);
+            box-shadow: var(--shadow);
             cursor: pointer;
-            transition: var(--transition);
         }
 
-        button:hover, select:hover {
-            background: var(--primary-color);
-            color: white;
+        button:active {
+            box-shadow: var(--shadow-inset);
         }
 
         .loading {
             display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 20px;
         }
 
-        .schedule-table {
-            width: 100%;
-            overflow-x: auto;
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--text-color);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
         }
 
         th, td {
             padding: 12px;
             text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .current-time {
+            text-align: center;
             font-size: 1.2em;
-            font-weight: 500;
             margin: 20px 0;
         }
 
         @media (max-width: 768px) {
-            .header {
+            .controls {
                 flex-direction: column;
-                gap: 20px;
             }
             
-            .controls {
-                width: 100%;
-                flex-direction: column;
+            table {
+                font-size: 14px;
             }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Jadwal Imsakiyah 2025</h1>
-            <div class="controls">
-                <button id="darkModeToggle">🌓 Tema</button>
-                <button id="locateBtn">📍 Deteksi Lokasi</button>
+            <h1>Jadwal Imsakiyah 1446 H</h1>
+            <div>
+                <button id="darkModeToggle"><i class="fas fa-moon"></i></button>
+                <button id="locationButton"><i class="fas fa-location-arrow"></i></button>
             </div>
         </div>
 
-        <div class="card">
-            <div class="controls">
-                <select id="provinceSelect" disabled>
-                    <option>Pilih Provinsi</option>
-                </select>
-                <select id="citySelect" disabled>
-                    <option>Pilih Kota/Kab</option>
-                </select>
-            </div>
+        <div class="controls">
+            <select id="provinsiSelect" disabled>
+                <option value="">Pilih Provinsi</option>
+            </select>
+            <select id="kotaSelect" disabled>
+                <option value="">Pilih Kota/Kabupaten</option>
+            </select>
         </div>
 
-        <div class="card">
-            <div class="current-time" id="currentTime"></div>
-            <div class="schedule-table">
-                <table id="scheduleTable">
-                    <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Imsak</th>
-                            <th>Subuh</th>
-                            <th>Dzuhur</th>
-                            <th>Ashar</th>
-                            <th>Maghrib</th>
-                            <th>Isya</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+        <div class="loading">
+            <div class="spinner"></div>
         </div>
 
-        <div class="loading">Memuat...</div>
+        <div class="current-time" id="currentTime"></div>
+
+        <div class="schedule-table glass-card">
+            <table id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Hari</th>
+                        <th>Imsak</th>
+                        <th>Subuh</th>
+                        <th>Dzuhur</th>
+                        <th>Ashar</th>
+                        <th>Maghrib</th>
+                        <th>Isya</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
     </div>
 
     <script>
-        const API_BASE = 'https://equran.id/api/v2/imsakiyah';
-        let currentSchedule = [];
-        let notificationsEnabled = false;
+        // Konfigurasi
+        const API_BASE = 'https://equran.id/api/v2';
+        const MONTH_YEAR = { year: 2025, month: 3 };
+        const savedTheme = localStorage.getItem('theme');
+        const savedProvince = localStorage.getItem('provinsi');
+        const savedCity = localStorage.getItem('kota');
 
-        // Theme Toggle
+        // Elemen DOM
         const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-        });
+        const locationButton = document.getElementById('locationButton');
+        const provinsiSelect = document.getElementById('provinsiSelect');
+        const kotaSelect = document.getElementById('kotaSelect');
+        const tableBody = document.getElementById('tableBody');
+        const currentTimeElement = document.getElementById('currentTime');
 
-        // Initialize theme
-        if (localStorage.getItem('darkMode') === 'true') {
+        // State
+        let provinces = [];
+        let cities = [];
+        let currentSchedule = [];
+        let notificationPermission = Notification.permission;
+
+        // Inisialisasi Tema
+        if (savedTheme === 'dark') {
             document.body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
         }
 
-        // Geolocation
-        document.getElementById('locateBtn').addEventListener('click', () => {
-            if (!navigator.geolocation) {
-                alert('Geolocation tidak didukung di browser ini');
-                return;
+        // Event Listeners
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        locationButton.addEventListener('click', getLocation);
+        provinsiSelect.addEventListener('change', fetchCities);
+        kotaSelect.addEventListener('change', fetchSchedule);
+
+        // Fungsi Utama
+        async function init() {
+            showLoading();
+            await fetchProvinces();
+            if (savedProvince && savedCity) {
+                provinsiSelect.value = savedProvince;
+                await fetchCities();
+                kotaSelect.value = savedCity;
+                await fetchSchedule();
             }
-            
-            navigator.geolocation.getCurrentPosition(
-                async position => {
-                    try {
-                        const { latitude, longitude } = position.coords;
-                        const location = await reverseGeocode(latitude, longitude);
-                        // Implement geocoding mapping here
-                    } catch (error) {
-                        alert('Gagal mendapatkan lokasi');
-                    }
-                },
-                error => alert('Izinkan akses lokasi untuk deteksi otomatis')
-            );
-        });
+            hideLoading();
+        }
 
-        // Populate Provinces
-        const provinceSelect = document.getElementById('provinceSelect');
-        const citySelect = document.getElementById('citySelect');
-
+        // Fungsi Fetch Data
         async function fetchProvinces() {
             try {
-                const response = await fetch(`${API_BASE}/provinsi`);
-                const { data } = await response.json();
-                provinceSelect.innerHTML = '<option>Pilih Provinsi</option>' + 
-                    data.map(p => `<option>${p}</option>`).join('');
-                provinceSelect.disabled = false;
+                const response = await fetch(`${API_BASE}/imsakiyah/provinsi`);
+                const data = await response.json();
+                provinces = data.data;
+                populateSelect(provinsiSelect, provinces);
+                provinsiSelect.disabled = false;
             } catch (error) {
-                console.error('Gagal memuat provinsi:', error);
+                showError('Gagal memuat data provinsi');
             }
         }
 
-        provinceSelect.addEventListener('change', async e => {
-            if (!e.target.value) return;
-            citySelect.disabled = true;
-            citySelect.innerHTML = '<option>Pilih Kota/Kab</option>';
-            
+        async function fetchCities() {
+            const provinsi = provinsiSelect.value;
+            if (!provinsi) return;
+
+            showLoading();
             try {
-                const response = await fetch(`${API_BASE}/kabkota`, {
+                const response = await fetch(`${API_BASE}/imsakiyah/kabkota`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ provinsi: e.target.value })
+                    body: JSON.stringify({ provinsi })
                 });
-                
-                const { data } = await response.json();
-                citySelect.innerHTML = '<option>Pilih Kota/Kab</option>' + 
-                    data.map(c => `<option>${c}</option>`).join('');
-                citySelect.disabled = false;
+                const data = await response.json();
+                cities = data.data;
+                populateSelect(kotaSelect, cities);
+                kotaSelect.disabled = false;
+                localStorage.setItem('provinsi', provinsi);
+                hideLoading();
             } catch (error) {
-                console.error('Gagal memuat kota:', error);
+                showError('Gagal memuat data kota');
             }
-        });
+        }
 
-        citySelect.addEventListener('change', async e => {
-            if (!e.target.value) return;
-            showLoading(true);
-            
+        async function fetchSchedule() {
+            const provinsi = provinsiSelect.value;
+            const kabkota = kotaSelect.value;
+            if (!provinsi || !kabkota) return;
+
+            showLoading();
             try {
-                const response = await fetch(`${API_BASE}`, {
+                const response = await fetch(`${API_BASE}/imsakiyah`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        provinsi: provinceSelect.value,
-                        kabkota: citySelect.value
-                    })
+                    body: JSON.stringify({ provinsi, kabkota })
                 });
-                
-                const { data } = await response.json();
-                currentSchedule = data[0].imsakiyah;
-                updateScheduleTable();
-                localStorage.setItem('lastLocation', JSON.stringify({
-                    province: provinceSelect.value,
-                    city: citySelect.value
-                }));
+                const data = await response.json();
+                currentSchedule = data.data[0].imsakiyah;
+                renderSchedule();
+                localStorage.setItem('kota', kabkota);
+                setupNotifications();
+                hideLoading();
             } catch (error) {
-                console.error('Gagal memuat jadwal:', error);
+                showError('Gagal memuat jadwal');
             }
-            
-            showLoading(false);
-        });
+        }
 
-        function updateScheduleTable() {
-            const tbody = document.querySelector('#scheduleTable tbody');
-            tbody.innerHTML = currentSchedule.map(day => `
+        // Fungsi Render
+        function renderSchedule() {
+            tableBody.innerHTML = currentSchedule.map(day => `
                 <tr>
-                    <td>${day.tanggal}/3/2025</td>
+                    <td>${day.tanggal}</td>
+                    <td>${getDayName(day.tanggal)}</td>
                     <td>${day.imsak}</td>
                     <td>${day.subuh}</td>
                     <td>${day.dzuhur}</td>
@@ -284,60 +299,140 @@
             `).join('');
         }
 
-        // Real-time Clock
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('currentTime').textContent = 
-                now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            
-            checkPrayerTime(now);
+        // Fungsi Bantuan
+        function populateSelect(selectElement, data) {
+            selectElement.innerHTML = data.map(item => 
+                `<option value="${item}">${item}</option>`
+            ).join('');
         }
-        setInterval(updateClock, 1000);
 
-        // Notifications
-        function checkPrayerTime(now) {
-            if (!currentSchedule.length) return;
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', 
+                document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+            );
+            darkModeToggle.innerHTML = document.body.classList.contains('dark-mode') 
+                ? '<i class="fas fa-sun"></i>' 
+                : '<i class="fas fa-moon"></i>';
+        }
+
+        async function getLocation() {
+            if (!navigator.geolocation) {
+                showError('Geolocation tidak didukung');
+                return;
+            }
+
+            showLoading();
+            try {
+                const position = await new Promise((resolve, reject) => 
+                    navigator.geolocation.getCurrentPosition(resolve, reject)
+                );
+                const { latitude, longitude } = position.coords;
+                const location = await reverseGeocode(latitude, longitude);
+                await setLocation(location);
+            } catch (error) {
+                showError('Gagal mendapatkan lokasi');
+            }
+            hideLoading();
+        }
+
+        async function reverseGeocode(lat, lon) {
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+                );
+                const data = await response.json();
+                return data.address;
+            } catch (error) {
+                throw new Error('Gagal mendapatkan lokasi');
+            }
+        }
+
+        async function setLocation(location) {
+            const province = location.state || location.province;
+            const matchedProvince = provinces.find(p => 
+                p.toLowerCase().includes(province.toLowerCase())
+            );
             
-            const currentDate = now.getDate();
-            const currentTime = now.getHours() * 60 + now.getMinutes();
-            
-            const today = currentSchedule.find(d => d.tanggal === currentDate);
-            if (!today) return;
-            
-            Object.entries(today).forEach(([prayer, time]) => {
-                if (prayer === 'tanggal') return;
-                const [hour, minute] = time.split(':').map(Number);
-                const prayerTime = hour * 60 + minute;
+            if (matchedProvince) {
+                provinsiSelect.value = matchedProvince;
+                await fetchCities();
                 
-                if (currentTime >= prayerTime - 5 && currentTime < prayerTime) {
-                    showNotification(`Waktu ${prayer} dalam 5 menit`);
+                const city = location.city || location.town;
+                const matchedCity = cities.find(c => 
+                    c.toLowerCase().includes(city.toLowerCase())
+                );
+                
+                if (matchedCity) {
+                    kotaSelect.value = matchedCity;
+                    await fetchSchedule();
                 }
+            }
+        }
+
+        function setupNotifications() {
+            if (!('Notification' in window)) return;
+            if (notificationPermission !== 'granted') {
+                Notification.requestPermission().then(permission => {
+                    notificationPermission = permission;
+                });
+            }
+
+            currentSchedule.forEach(day => {
+                Object.entries(day).forEach(([key, time]) => {
+                    if (key === 'tanggal') return;
+                    const notificationTime = new Date(
+                        `${MONTH_YEAR.year}-${MONTH_YEAR.month}-${day.tanggal}T${time}:00`
+                    );
+                    scheduleNotification(notificationTime, key);
+                });
             });
         }
 
-        function showNotification(message) {
-            if (!notificationsEnabled) {
-                Notification.requestPermission().then(perm => {
-                    if (perm === 'granted') notificationsEnabled = true;
-                });
-                return;
-            }
+        function scheduleNotification(time, prayerName) {
+            const now = new Date();
+            const diff = time - now;
             
-            new Notification('Pengingat Waktu Sholat', { body: message });
+            if (diff > 0) {
+                setTimeout(() => {
+                    if (notificationPermission === 'granted') {
+                        new Notification(`Waktu ${prayerName} telah tiba`, {
+                            body: `Selamat menunaikan ibadah ${prayerName}`
+                        });
+                    }
+                }, diff);
+            }
         }
 
-        // Helpers
-        function showLoading(show) {
-            document.querySelector('.loading').style.display = show ? 'block' : 'none';
+        function getDayName(day) {
+            const date = new Date(2025, 2, day);
+            return date.toLocaleDateString('id-ID', { weekday: 'long' });
         }
 
-        // Initial Load
-        fetchProvinces();
-        const lastLocation = JSON.parse(localStorage.getItem('lastLocation'));
-        if (lastLocation) {
-            provinceSelect.value = lastLocation.province;
-            // Trigger city load
+        function updateTime() {
+            const now = new Date();
+            currentTimeElement.textContent = now.toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
         }
+
+        function showLoading() {
+            document.querySelector('.loading').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.querySelector('.loading').style.display = 'none';
+        }
+
+        function showError(message) {
+            alert(message);
+        }
+
+        // Inisialisasi
+        init();
+        setInterval(updateTime, 1000);
     </script>
 </body>
 </html>
