@@ -140,7 +140,7 @@
                 showError('Geolocation tidak didukung');
                 return;
             }
-
+        
             showLoading();
             try {
                 const position = await new Promise((resolve, reject) => 
@@ -150,11 +150,19 @@
                 const location = await reverseGeocode(latitude, longitude);
                 await setLocation(location);
             } catch (error) {
-                showError('Gagal mendapatkan lokasi');
+                if (error.code === error.PERMISSION_DENIED) {
+                    showError('Pengguna menolak untuk memberikan izin lokasi');
+                } else if (error.code === error.POSITION_UNAVAILABLE) {
+                    showError('Posisi tidak dapat ditemukan');
+                } else if (error.code === error.TIMEOUT) {
+                    showError('Waktu permintaan lokasi habis');
+                } else {
+                    showError('Gagal mendapatkan lokasi');
+                }
             }
             hideLoading();
         }
-
+        
         async function reverseGeocode(lat, lon) {
             try {
                 const response = await fetch(
@@ -166,28 +174,43 @@
                 throw new Error('Gagal mendapatkan lokasi');
             }
         }
-
+        
         async function setLocation(location) {
             const province = location.state || location.province;
+            if (!province) {
+                showError('Provinsi tidak ditemukan');
+                return;
+            }
+        
             const matchedProvince = provinces.find(p => 
                 p.toLowerCase().includes(province.toLowerCase())
             );
-            
+        
             if (matchedProvince) {
                 provinsiSelect.value = matchedProvince;
                 await fetchCities();
-                
+        
                 const city = location.city || location.town;
+                if (!city) {
+                    showError('Kota tidak ditemukan');
+                    return;
+                }
+        
                 const matchedCity = cities.find(c => 
                     c.toLowerCase().includes(city.toLowerCase())
                 );
-                
+        
                 if (matchedCity) {
                     kotaSelect.value = matchedCity;
                     await fetchSchedule();
+                } else {
+                    showError('Kota tidak ditemukan');
                 }
+            } else {
+                showError('Provinsi tidak ditemukan');
             }
         }
+        
 
         function setupNotifications() {
             if (!('Notification' in window)) return;
